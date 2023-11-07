@@ -1,0 +1,1 @@
+# BitPay-Crypto-Signal-Trading-Bot
