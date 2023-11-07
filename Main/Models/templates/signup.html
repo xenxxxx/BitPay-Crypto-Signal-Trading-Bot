@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Signup{% endblock title %}
+{% block body %}
+
+<body class="bg-gray-100">
+<!-- Accordion for displaying login error message -->
+{% if user_error_message %}
+<div class="mt-4">
+  <input type="checkbox" class="hidden" id="loginErrorAccordion">
+  <div class="bg-red-100 rounded p-2 mt-2">
+      <!-- Error message will be shown here -->
+      {{ user_error_message }}
+  </div>
+</div>    
+{% endif %}
+    <div class="container mt-16 mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-md w-full mx-auto">
+            <div class="bg-white shadow-md rounded-lg px-8 py-8">
+                <div class="mb-6 text-center">
+                    <h1 class="text-2xl font-bold">D.M.A Signup</h1>
+                </div>
+                <form method="POST" action="/signup">
+                    <input id="email" name="email" class="px-3 h-12 my-2 border border-2 outline-blue-600 border-gray-200 rounded-lg w-full" type="email" placeholder="Email address" required>
+                    <input id="password" name="password" class="px-3 h-12 my-2 border border-2 outline-blue-600 border-gray-200 rounded-lg w-full" type="password" placeholder="Password" required>
+                    <input id="cpassword" name="cpassword" class="px-3 h-12 my-2 border border-2 outline-blue-600 border-gray-200 rounded-lg w-full" type="password" placeholder="Confirm Password" required>
+                    <button class="bg-yellow-600 text-white hover:bg-yellow-700 my-2 py-3 rounded-md font-bold w-full" type="submit">Signup</button>
+                </form>
+                <div class="flex items-center justify-between mt-4">
+                    <a class="text-blue-600 text-sm cursor-pointer hover:underline" href="#">Forgotten password?</a>
+                    <button class="bg-[#1c1c1c] text-white hover:bg-[#272727] py-3 px-4 rounded-md font-bold text-sm"><a href="/login_page">Login Now</a></button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}

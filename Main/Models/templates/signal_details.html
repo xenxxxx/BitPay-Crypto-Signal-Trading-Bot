@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% block title %}Technical Analysis{% endblock title %}
+{% block body %}
+
+<body class="bg-gray-100">
+  <!-- CoinGecko Coin Price Marquee Widget -->
+  <script type="text/javascript" src="https://files.coinmarketcap.com/static/widget/coinMarquee.js"></script>
+  <div id="coinmarketcap-widget-marquee" coins="1,1027,825,4134,1839" currency="USD" theme="dark" transparent="false"
+    show-symbol-logo="true"></div>
+
+
+    <section class="text-gray-600 body-font overflow-hidden">
+      <!-- Details on the left -->
+      <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0 m-auto">
+        <h2 class="text-sm title-font text-gray-500 tracking-widest">Signal:</h2>
+        <h1 class="text-gray-900 text-3xl title-font font-medium mb-1">{{ signal_details[1] }}</h1>
+        
+        <!-- Display additional details about the signal here -->
+        
+        <p class="leading-relaxed">Buy Range: {{ signal_details[2] }}</p>
+        
+        <!-- Add the TradingView chart here -->
+        <div class="tradingview-widget-container">
+            <div id="tradingview_chart"></div>
+        </div>
+        
+        <!-- Add the review and size selection section here if needed -->
+        
+        <div class="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
+            <!-- Add color and size selection options here if needed -->
+        </div>
+        <!-- Comment form -->
+    <form class="mt-6" id="commentForm" method="post" action="/post_comment">
+      <input type="hidden" name="signal_sno" value="{{ signal_details[0] }}">
+      <input type="hidden" name="user_id" value="{{ user_id }}">
+      <textarea class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-indigo-500"
+          name="comment_text" placeholder="Write a comment..."></textarea>
+      <button type="submit"
+          class="mt-2 bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-1 px-3 rounded">Post
+          Comment</button>
+  </form>
+    </div>
+        
+          
+
+    <!-- Display existing comments -->
+{% for comment in comments %}
+<div class="comment mb-4 p-4 bg-white rounded shadow-md">
+  <p class="text-gray-600">{{ comment.comment_text }}</p>
+  <p class="text-gray-400 text-sm">{{ comment.comment_timestamp }}</p>
+  <!-- Display user information if available -->
+  {% if comment.comment_user_id %}
+  <p class="text-gray-400 text-sm">Commented by:
+    {% if user_id == comment.comment_user_id %}
+      You
+    {% else %}
+      {{ comment.comment_user_id|get_username }}
+    {% endif %}
+  </p>
+  {% endif %}
+  <!-- Reply button -->
+  <!-- <button class="text-indigo-500 mt-2 hover:underline cursor-pointer" onclick="toggleReplyForm('{{ comment.comment_id }}')">
+    Reply
+  </button>
+
+   Reply form 
+  <form class="mt-2 hidden" id="replyForm{{ comment.id }}" method="post" action="/post_reply">
+    <input type="hidden" name="signal_sno" value="{{ signal_details[0] }}">
+    <input type="hidden" name="comment_id" value="{{ comment.id }}">
+    <input type="hidden" name="user_id" value="{{ user_id }}">
+    <textarea class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-indigo-500"
+        name="reply_text" placeholder="Reply to this comment..."></textarea>
+    <button type="submit"
+        class="mt-2 bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-1 px-3 rounded">Post
+        Reply</button>
+  </form> -->
+
+  {% for reply in comment.replies %}
+  <div class="ml-4 comment reply bg-gray-100 p-2 rounded-md shadow-sm">
+    <p class="text-gray-600">{{ reply.reply_text }}</p>
+    <p class="text-gray-400 text-sm">{{ reply.reply_timestamp }}</p>
+    <!-- Display user information if available -->
+    {% if reply.reply_user_id %}
+    <p class="text-gray-400 text-sm">Replied by:
+      {% if user_id == reply.reply_user_id %}
+        You
+      {% else %}
+        {{ reply.reply_user_id|get_username }}
+      {% endif %}
+    </p>
+    {% endif %}
+  </div>
+  {% endfor %}  <!-- This is where the innermost for loop should be closed -->
+</div>
+{% endfor %}  
+
+
+
+
+
+  </section>
+
+  <script>
+    new TradingView.widget(
+      {
+        "width": "100%",
+        "height": 400,
+        "symbol": "{{ signal_details[1] }}",  // Assuming signal_details[2] contains the coin_name
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "light",
+        "style": "1",
+        "locale": "en",
+        "toolbar_bg": "#f1f3f6",
+        "enable_publishing": false,
+        "allow_symbol_change": true,
+        "container_id": "tradingview_chart"
+      }
+    );
+
+    function toggleReplyForm(commentId) {
+      var replyForm = document.getElementById('replyForm' + commentId);
+      if (replyForm.style.display === 'none') {
+        replyForm.style.display = 'block';
+      } else {
+        replyForm.style.display = 'none';
+      }
+    }
+  </script>
+{% endblock body %}

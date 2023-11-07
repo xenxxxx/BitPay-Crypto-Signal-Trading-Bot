@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}{% endblock title %} - Daily Market Analysis</title>
+  <link href="/static/css/output.css" rel="stylesheet">
+  <link href="/static/css/style.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+  <script src="/static/js/script.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+</head>
+
+<body>
+
+    <header class="bg-[#1c1c1c] text-white body-font">
+        <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+            <a class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
+                <!-- Replace the SVG icon with the Bitcoin logo image -->
+                <img src="/static/images/bitcoin-btc-logo.png" alt="Bitcoin Logo"
+                    class="w-12 h-12 rounded-full bg-bitcoin-orange p-2">
+            </a>
+            <span class="ml-3 font-semibold text-white text-2xl"><a href="/">Daily Market Analysis</a></span>
+    
+            <!-- Hamburger icon (three white lines) -->
+            <div class="md:hidden ml-auto">
+              <div class="space-y-1" id="menuBtn">
+                  <div class="w-8 h-0.5 bg-white"></div>
+                  <div class="w-8 h-0.5 bg-white"></div>
+                  <div class="w-8 h-0.5 bg-white"></div>
+              </div>
+          </div>
+    
+            <!-- Add a div to hold the navigation links -->
+            <div class="md:flex md:items-center m-auto hidden" id="menuItems">
+                  <a href="/" class="block m-2 font-medium hover:text-yellow-500 cursor-pointer">Home</a>
+                  <a href="/free_signals" class="block m-2 font-medium hover:text-yellow-500 cursor-pointer">Cryptocurrency</a>
+                  <a href="/stock_market" class="block m-2 font-medium hover:text-yellow-500 cursor-pointer">Stock Market</a>
+                  <a href="/about_us" class="block m-2 font-medium hover:text-yellow-500 cursor-pointer">About Us</a>
+                  <a href="/contact_page" class="block m-2 font-medium hover:text-yellow-500 cursor-pointer">Contact Us</a>
+    
+              {% if 'user_id' in session %}
+              <!-- Display user email and logout button if the user is logged in -->
+              {% set username = session['email'].split('@')[0] %}
+              <span class="mr-5 font-medium text-white">Logged in as: {{ username }}</span>
+              <a href="/logout" class="mr-5 font-medium hover:text-yellow-500 cursor-pointer">Logout</a>
+              {% else %}
+            </div>
+              <!-- Display the login button if the user is not logged in -->
+              <button class="inline-flex items-center bg-black border-0 py-3 px-4 focus:outline-none hover:text-yellow-500 rounded-lg text-base mt-4 md:mt-0">
+                  <a href="/login_page">Login Now</a>
+                  <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      class="w-4 h-4 ml-1" viewBox="0 0 24 24">
+                      <path d="M5 12h14M12 5l7 7-7 7"></path>
+                  </svg>
+              </button>
+              {% endif %}
+          
+        </div>
+    </header>
+
+    
+{% block body %}
+
+{% endblock body %}
+
+<footer class="bg-[#1c1c1c] text-white body-font mt-12">
+    <div class="container mx-auto py-8 text-center">
+        <h2 class="text-2xl font-semibold mb-4">Daily Market Analysis</h2>
+        <p class="text-gray-400 mb-2">Lahore, Pakistan</p>
+        <p class="text-gray-400 mb-2">Email: shariqshaukat786@gmail.com</p>
+      <div class="container text-center text-gray-500">
+          <p class="text-sm">
+              Copyright © 2023 All rights reserved
+          </p>
+      </div>
+    </div>
+</footer>
+
+</body>
+
+</html>
